@@ -3,7 +3,7 @@ class Duck {
   float y;
   float d;
   float w=100;
-  int lives, initLives;
+  int lives, initLives, selfScore;
   PVector speed= new PVector(0, 0);
   boolean alive=true;
   boolean flapA=true;
@@ -19,6 +19,9 @@ class Duck {
     d=D;
     lives=L;
     initLives=L;
+    if (initLives==1) selfScore=200;
+    else if (initLives==2) selfScore=400;
+    else selfScore=900;
   }
 
 
@@ -49,7 +52,6 @@ class Duck {
             tint(map(lives, 2, 3, 200, 150), map(lives, 2, 3, 80, 108), 0);
             image(dorkFrameLeft[frameIndex], x, y, w/d, w/d);
           }
-          
         } else {//right
           int frameIndex=fCount%4;
           //println(frameIndex);
