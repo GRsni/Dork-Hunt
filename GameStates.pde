@@ -192,9 +192,10 @@ void drawGameState2() {
   fill(0);
   String s="User:"+name;
   text(s, 30, 60);
-  for (int i=0; i<dorkFrameLeft.length; i++) {
-    image(dorkFrameLeft[i], i*100, 100);
-  }
+  //for (Ability a:activeAbilities) {
+    activeAbilities[0].display();
+    //image(dorkFrameLeft[i], i*100, 100);
+  //}
 
 
   Button w=new Button(true, 20+s.length()*23.5, 25, 36, 36, 4, 4, #000000, #484848);

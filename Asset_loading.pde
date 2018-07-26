@@ -233,7 +233,11 @@ void loadAbilities() {
     String imagePath="data/art/abilities/"+ability.getString("art");
     PImage art=loadImage(imagePath);
     //println(n);
-    abilitiesList.add(new Ability(n, cost, instant, duration, cooldown, art));
+    abilitiesList.add(new Ability(n, cost, duration, cooldown, art));
+    for (int j=0; j<activeAbilities.length; j++) {
+      Ability a=abilitiesList.get(floor(random(abilitiesList.size())));
+      makeAbilityActive(j,a);
+    }
   }
 }
 void checkScore(int num, int[] list, String[] nameList) {

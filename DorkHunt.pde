@@ -68,6 +68,7 @@ ArrayList<Bullet> bullets=new ArrayList<Bullet>();
 ArrayList<Score> points=new ArrayList<Score>();
 ArrayList<Plane> planes=new ArrayList<Plane>();
 ArrayList<Ability> abilitiesList=new ArrayList<Ability>();
+Ability[] activeAbilities=new Ability[4];
 Boss boss;
 
 int level=7;
@@ -102,8 +103,8 @@ int time2=0;
 
 
 void setup() { 
-  //fullScreen();
-  size(1200, 600);
+  fullScreen();
+  //size(1200, 600);
 
   titlebaricon=loadImage("data/art/dorkIcon.png");
 

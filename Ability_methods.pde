@@ -1,4 +1,4 @@
-  void abilitiesAnim() {
+void abilitiesAnim() {
 
   pushStyle();
   noStroke();
@@ -61,6 +61,11 @@
     text("R", 1140, 695);
   }
   popStyle();
+}
+
+void makeAbilityActive(int index, Ability ab) {
+  activeAbilities[index]=ab;
+  ab.recievePos(index);
 }
 
 void Q() {
