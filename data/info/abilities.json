@@ -1,0 +1,43 @@
+[
+  {	
+	"id": 0,
+    "name": "shotgun",
+    "cost": 15,
+    "instant": true,
+    "duration":0,
+    "cooldown":10,
+    "art": "shotgun.png"
+  },{
+  "id": 1,
+    "name": "machinegun",
+    "cost": 20,
+    "instant": false,	
+    "duration":6.5,
+    "cooldown":45,
+    "art": "machinegun.png"
+  }, {
+  "id": 2,
+    "name": "slowtime",
+    "cost": 25,	
+    "instant": false,
+    "duration":10,
+    "cooldown":20,
+    "art": "slowtime.png"
+  }, {
+  "id": 3,
+    "name": "nuke",
+    "cost": 30,
+    "instant": true,
+    "duration":0,
+    "cooldown":90,
+    "art": "nuke.png"
+  }, {
+  "id": 4,
+    "name": "test",
+    "cost": 1,
+    "instant": true,
+    "duration":0,
+    "cooldown":2,
+    "art": "test.png"
+  }
+]
