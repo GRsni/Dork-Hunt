@@ -71,7 +71,7 @@ ArrayList<Ability> abilitiesList=new ArrayList<Ability>();
 Ability[] activeAbilities=new Ability[4];
 Boss boss;
 
-int level=7001;
+int level=1;
 static int startAmmo;
 int score=0;
 float up=0.01;
@@ -124,7 +124,7 @@ void setup() {
 void draw() { 
   background(120);
 
-  //println(ducks.size());
+  println(ducks.size());
   switch(gameState) {
   case 0:
     drawGameState0();//name selection
@@ -403,7 +403,6 @@ void pSpawn() {//spawns the UFOs
 }
 
 void hitDork(Duck d) {
-  int point=0;
   clicked=true;
   if (d.lives>1) {
     d.lives--;
@@ -414,18 +413,11 @@ void hitDork(Duck d) {
 
 
 void killDork(Duck d) {
-  d.alive=false;
-  d.rotation=random(-PI, PI);
-  d.speed.y=0;
+  d.die();
   if (!flags[0]) {
     splatter.play(0);
   }
   killCount++;
-  if (d.initLives==1) {
-    simpleDorksKilled++;
-  }
-
-  score+=d.selfScore;
   points.add(new Score(d.x, d.y, d.selfScore, 0));
 
   if (!flags[1]) {//easy mode
@@ -594,9 +586,8 @@ void levelChoose() {//level selection
 }
 
 void removeMissedDorks() {
-  for (int i=ducks.size()-1; i>=0; i--) {//remove missed dorks
+  for (int i=ducks.size()-1; i>=0; i--) {
     Duck duck=ducks.get(i); 
-
     if (duck.y>height-200&&duck.alive) {
       points.add(new Score(width-150, 90, -1000, 0)); 
       score-=1000; 
@@ -608,8 +599,7 @@ void removeMissedDorks() {
 void removeMissedPlanes() {
   for (int i=planes.size()-1; i>=0; i--) {//remove missed planes
     Plane p= planes.get(i); 
-    if ((p.rightDir&&p.x>width)||(!p.rightDir&&p.x<0)||p.y>height-300) {
-
+    if (p.outOfTheBorders()) {
       planes.remove(i);
     }
   }
@@ -707,15 +697,19 @@ void resetGame() {//resets all dorks, planes, and bullets and refills the ammo, 
   }
 }
 
+void reloadAmmoMethod(int baseVal, int randomVal ) {
+}
+
 void reloadBullets(int num) {
   if (gameState==1) {
     if (!flags[0]) {
       reloadSound.play(0);
     }
   }
-  for (int i=0; i<num; i++) {
-    shotIndex++;
-  }
+  shotIndex+=num;
+  //for (int i=0; i<num; i++) {
+  //  shotIndex++;
+  //}
 }
 
 void pauseAllMusic() {

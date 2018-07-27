@@ -38,4 +38,18 @@ class Plane {
   boolean inside(float X, float Y) {
     return X>x&&X<x+l&&Y>y&&Y<y+h;
   }
+
+  boolean outOfTheBorders() {
+    boolean out=false;
+    if (rightDir&&x>width) {
+      out=true;
+    }
+    if (!rightDir&&x+l<0) {
+      out =true;
+    }
+    if (y>height-300) { 
+      out=true;
+    }
+    return out;
+  }
 }

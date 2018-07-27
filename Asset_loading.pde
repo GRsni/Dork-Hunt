@@ -151,16 +151,18 @@ void loadStuff() {
   desktop.resize(width, 250);
   scoreboard= loadImage("art/scoreboard.png");
 
-  PImage dorkAnim=loadImage("art/fullAnimLeft.png");
+  PImage animL=loadImage("art/smallAnimLeft.png");
+  PImage animR=loadImage("art/smallAnimRight.png");
   for (int i=0; i<4; i++) {
     //dorkFrameLeft[i]=dorkAnim.get(i*100, 0, 100, 100);
-    dorkFrameLeft[i]=loadImage("art/testSmall.png").get(i*50, 0, 50, 50);
+    dorkFrameLeft[i]=animL.get(i*50, 0, 50, 50);
+    dorkFrameRight[i]=animR.get(i*50, 0, 50, 50);
   }
   //dorkAnim=loadImage("art/fullAnimRightsmall.png");
-  dorkAnim=loadImage("art/testSmall.png");
-  for (int i=0; i<4; i++) {
-    dorkFrameRight[i]=dorkAnim.get(i*50, 0, 50, 50);
-  }
+  //dorkAnim=loadImage("art/testSmall.png");
+  //for (int i=0; i<4; i++) {
+  //  dorkFrameRight[i]=dorkAnim.get(i*50, 0, 50, 50);
+  //}
 
   dorkExp=loadImage("art/dorkExp.png");
   plane=loadImage("art/plane.png");
