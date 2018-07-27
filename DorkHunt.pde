@@ -119,13 +119,6 @@ void setup() {
   ammoFont=loadFont("info/Power_Clear_Bold-40.vlw");
   textFont(scoreFont, 30);
   thread("loadStuff");
-  //int starttime=millis();
-  //print("started"+starttime);
-  //for (int i=0; i<100; i++) {
-  //  Duck d=new Duck(width/2, 300, 100);
-  //  ducks.add(d);
-  //}
-  //println("it took"+(millis()-starttime));
 }
 
 void draw() { 
