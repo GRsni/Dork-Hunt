@@ -1,4 +1,4 @@
-import ddf.minim.*; //<>//
+import ddf.minim.*; //<>// //<>//
 
 
 //Dork Hunt 
@@ -49,8 +49,8 @@ PFont scoreFont, ammoFont;
 String[] highScoresEasy;
 String[] highScoresHard;
 String[] scoreList=new String[10];
-int[] scoreNum=new int[10];
 JSONObject flagsjson;
+int[] scoreNum=new int[10];
 boolean[] flags;//0=mute, 1=difficulty 2=Q 3=W 4=E 5=R 6=kill dorks 7=cursor type
 String name="";
 float[] cooldowns=new float[4];
