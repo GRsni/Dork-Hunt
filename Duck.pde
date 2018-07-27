@@ -13,15 +13,28 @@ class Duck {
   float dir;
   float rotation;
 
+  Duck(float X, float Y, float D) {
+    x=X;
+    y=Y;
+    d=D;
+    lives=getLives();
+    initLives=lives;
+    if (initLives==1) selfScore=200;
+    else if (initLives==2) selfScore=400;
+    else selfScore=900;
+    speed=chooseStartingSpeed();
+  }
+  
   Duck(float X, float Y, float D, int L) {
     x=X;
     y=Y;
     d=D;
     lives=L;
-    initLives=L;
+    initLives=lives;
     if (initLives==1) selfScore=200;
     else if (initLives==2) selfScore=400;
     else selfScore=900;
+    speed=chooseStartingSpeed();
   }
 
 
@@ -98,21 +111,36 @@ class Duck {
   }
 
 
-  void chooseDir() {
+  PVector chooseStartingSpeed() {
     if (x>width/2) {
-      dir=random(-4, -2);
-      speed.x=dir;
+      float angle=random(HALF_PI, 3/4*PI);
+     return PVector.fromAngle(angle).setMag(10*wActivation);
     } else {
-      dir=random(2, 4);
-      speed.x=dir;
+      float angle=random(3/4*PI, TWO_PI);
+      return PVector.fromAngle(angle).setMag(10*wActivation);
     }
+  }
+
+  int getLives() {
+    float r=random(1);
+
+    if (simpleDorksKilled>7||r<0.08) {
+      simpleDorksKilled=0;
+      return 3;
+    } else if (r<0.2) { 
+      return 2;
+    } else return 1;
   }
 
   boolean click(boolean c, float X_, float Y_) {
     if (c) {
-      return(X_>=x&&X_<x+(w/d)&&Y_>=y&&Y_<y+(w/d))&&mousePressed&&!clicked;
+      return(inside(X_, Y_))&&mousePressed&&!clicked;
     } else {
-      return(X_>=x&&X_<x+(w/d)&&Y_>=y&&Y_<y+(w/d));
+      return(inside(X_, Y_));
     }
+  }
+
+  boolean inside(float X, float Y) {
+    return X>x&&X<x+w/d&&Y>y&&Y<y+w/d;
   }
 }

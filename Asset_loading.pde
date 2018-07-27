@@ -153,11 +153,13 @@ void loadStuff() {
 
   PImage dorkAnim=loadImage("art/fullAnimLeft.png");
   for (int i=0; i<4; i++) {
-    dorkFrameLeft[i]=dorkAnim.get(i*100, 0, 100, 100);
+    //dorkFrameLeft[i]=dorkAnim.get(i*100, 0, 100, 100);
+    dorkFrameLeft[i]=loadImage("art/testSmall.png").get(i*50, 0, 50, 50);
   }
-  dorkAnim=loadImage("art/fullAnimRight.png");
+  //dorkAnim=loadImage("art/fullAnimRightsmall.png");
+  dorkAnim=loadImage("art/testSmall.png");
   for (int i=0; i<4; i++) {
-    dorkFrameRight[i]=dorkAnim.get(i*100, 0, 100, 100);
+    dorkFrameRight[i]=dorkAnim.get(i*50, 0, 50, 50);
   }
 
   dorkExp=loadImage("art/dorkExp.png");
@@ -236,7 +238,7 @@ void loadAbilities() {
     abilitiesList.add(new Ability(n, cost, duration, cooldown, art));
     for (int j=0; j<activeAbilities.length; j++) {
       Ability a=abilitiesList.get(floor(random(abilitiesList.size())));
-      makeAbilityActive(j,a);
+      makeAbilityActive(j, a);
     }
   }
 }

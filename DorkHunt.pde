@@ -1,4 +1,4 @@
-import ddf.minim.*; //<>//
+import ddf.minim.*; //<>// //<>//
 
 
 //Dork Hunt 
@@ -71,7 +71,7 @@ ArrayList<Ability> abilitiesList=new ArrayList<Ability>();
 Ability[] activeAbilities=new Ability[4];
 Boss boss;
 
-int level=7;
+int level=7001;
 static int startAmmo;
 int score=0;
 float up=0.01;
@@ -380,18 +380,16 @@ void dSpawn() {//spawns the dorks
   if (killCount==0&&!flags[6]) {
     ducks.add(new Duck(random(width), height-250, random(.5, 1), 1) );
   } else {
-    int dLives=dorkLives();
-    println(dLives);
-    ducks.add(new Duck(random(width), height-250, random(.5, 1), dLives) );
+    ducks.add(new Duck(random(width), height-250, random(.5, 1)) );
   }
 
-  Duck duck= ducks.get(ducks.size()-1); 
-  if (wActivation==0.5) {
-    duck.speed.y=random(-11, -13);
-  } else {
-    duck.speed.y=random(-10, -13);
-  }
-  duck.chooseDir();
+  //Duck duck= ducks.get(ducks.size()-1); 
+  //if (wActivation==0.5) {
+  //  duck.speed.y=random(-11, -13);
+  //} else {
+  //  duck.speed.y=random(-10, -13);
+  //}
+  //duck.chooseDir();
 }
 
 
@@ -412,16 +410,9 @@ void pSpawn() {//spawns the UFOs
   }
 }
 
-int dorkLives() {
-  float r=random(1);
+//int dorkLives() {
 
-  if (simpleDorksKilled>7||r<0.08) {
-    simpleDorksKilled=0;
-    return 3;
-  } else if (r<0.2) { 
-    return 2;
-  } else return 1;
-}
+//}
 
 void killDork(Duck d) {
   int point=0;
