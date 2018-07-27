@@ -4,10 +4,8 @@ class Duck {
   float d;
   float w=100;
   int lives, initLives, selfScore;
-  PVector speed= new PVector(0, 0);
+  PVector speed;
   boolean alive=true;
-  boolean flapA=true;
-  boolean turned=false;
   int fCount=0;
   int alpha=255;
   float dir;
@@ -40,7 +38,7 @@ class Duck {
 
   void show() {
     pushStyle();
-    if (y+(w*1/d)<height-250) {
+    //if (y+(w*1/d)<height-250) {
       if (frameCount%15==0) { 
         fCount++;
       }
@@ -56,7 +54,7 @@ class Duck {
         image(dorkExp, -w/d/2, -w/d/2, w/d, w/d);
         popMatrix();
       } else {
-        if (dir>0) {//left
+        if (speed.x>0) {//left
 
           int frameIndex=fCount%4;
           if (lives==1) {
@@ -76,7 +74,7 @@ class Duck {
           }
         }
       }
-    }
+    //}
     if (y+(w/d)<0) {
       stroke(255);
       strokeWeight(2);
@@ -87,9 +85,6 @@ class Duck {
   }
 
   void move() {
-    if (fCount%20==0) {
-      flapA=!flapA;
-    }
     if (alive) {
       x+=speed.x*wActivation;
       speed.y+=grav*wActivation;

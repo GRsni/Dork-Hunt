@@ -71,7 +71,7 @@ ArrayList<Ability> abilitiesList=new ArrayList<Ability>();
 Ability[] activeAbilities=new Ability[4];
 Boss boss;
 
-int level=1;
+int level=40;
 static int startAmmo;
 int score=0;
 float up=0.01;
@@ -388,17 +388,9 @@ void dSpawn() {//spawns the dorks
 
 void pSpawn() {//spawns the UFOs
   if (random(1)>.5) {//planes towards the right
-    planes.add(new Plane(-50, random(50, 250))); 
-    Plane plane=planes.get(planes.size()-1); 
-    plane.rightDir=true; 
-    plane.speed.x=(10+level*.13)*wActivation; 
-    plane.speed.y=(random(0, 2.5))*wActivation;
+    planes.add(new Plane(-50, random(50, 450))); 
   } else {//planes towards the left
-    planes.add(new Plane(width+50, random(75, 225))); 
-    Plane plane=planes.get(planes.size()-1); 
-    plane.rightDir=false; 
-    plane.speed.x=-10-level*.13; 
-    plane.speed.y=random(0, 2.5);
+    planes.add(new Plane(width+50, random(75, 450))); 
   }
 }
 
@@ -460,7 +452,7 @@ void killPlane(Plane p) {
   int reloadAmount;
   if (levelType==2) {
     reloadAmount=10;
-    reloadBullets(reloadAmount);
+    reloadBullets(10);
   } else {
     reloadAmount=20;
     reloadBullets(reloadAmount);
@@ -631,7 +623,7 @@ void levelUpCheck() {//check level up requirements
       points.add(new Score(width/2, height-500, 0, 2));//floating text
     }
   } else if (levelType==2) {
-    if (millis()-bonusTime>4500) {
+    if (millis()-bonusTime>450000) {
       points.add(new Score(width/2, height-500, 0, 2));
       levelUpMethod();
     }

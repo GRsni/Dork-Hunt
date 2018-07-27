@@ -1,7 +1,7 @@
 class Plane {
   float x;
   float y;
-  PVector speed=new PVector(0, 0);
+  PVector speed;
   int l=75;
   int h=40;
   boolean rightDir;
@@ -11,6 +11,8 @@ class Plane {
   Plane(float X, float Y) {
     x=X;
     y=Y;
+    setDirection();
+    speed=getSpeed();
   }
 
   void show() {
@@ -51,5 +53,25 @@ class Plane {
       out=true;
     }
     return out;
+  }
+
+  void setDirection() {
+    if (x<0) { 
+      rightDir=true;
+    } else { 
+      rightDir=false;
+    }
+  }
+
+
+  PVector getSpeed() {
+    float angle;
+    if (rightDir) {
+      //float angle=random(5, 15);
+      angle=map(y, 50, 450, 15, -10);
+    } else {
+      angle=map(y, 75, 450, 165, 195);
+    }
+    return PVector.fromAngle(radians(angle)).setMag((9+level*.15)*wActivation);
   }
 }
