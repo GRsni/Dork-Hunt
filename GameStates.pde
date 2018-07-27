@@ -199,9 +199,9 @@ void drawGameState2() {
 
   //if (threadDone) {
 
-  for (Duck d : ducks) {
-    d.show();
-  }
+  //for (Duck d : ducks) {
+  //  d.show();
+  //}
   //}
   Button w=new Button(true, 20+s.length()*23.5, 25, 36, 36, 4, 4, #000000, #484848);
   w.show();
@@ -252,6 +252,10 @@ void drawGameState2() {
     }
     popStyle();
   }
+  Duck dL=new Duck(100, 100, 1);
+  dL.show();
+  Duck dR=new Duck(width-100, 100, 1);
+  dR.show();
 
 
   time2++;
