@@ -24,7 +24,7 @@ class Duck {
     else selfScore=900;
     speed=chooseStartingSpeed();
   }
-  
+
   Duck(float X, float Y, float D, int L) {
     x=X;
     y=Y;
@@ -110,14 +110,13 @@ class Duck {
     }
   }
 
-
   PVector chooseStartingSpeed() {
     if (x>width/2) {
-      float angle=random(HALF_PI, 3/4*PI);
-     return PVector.fromAngle(angle).setMag(10*wActivation);
+      float angle=random(225,250);
+      return PVector.fromAngle(radians(angle)).setMag(10*wActivation);
     } else {
-      float angle=random(3/4*PI, TWO_PI);
-      return PVector.fromAngle(angle).setMag(10*wActivation);
+      float angle=random(290, 315);
+      return PVector.fromAngle(radians(angle)).setMag(10*wActivation);
     }
   }
 
@@ -142,5 +141,15 @@ class Duck {
 
   boolean inside(float X, float Y) {
     return X>x&&X<x+w/d&&Y>y&&Y<y+w/d;
+  }
+
+  void die() {
+    alive=false;
+    rotation=random(-PI, PI);
+    speed.y=0;
+    score+=selfScore;
+    if (initLives==1) {
+      simpleDorksKilled++;
+    }
   }
 }
