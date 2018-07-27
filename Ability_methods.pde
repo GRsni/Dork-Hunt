@@ -165,7 +165,7 @@ void Q() {
         for (int k=ducks.size()-1; k>=0; k--) {
           Duck duck=ducks.get(k);
           if (duck.click(false, x, y)&&duck.alive) {
-            killDork(duck);
+            hitDork(duck);
           }
         }
         for (int a=planes.size()-1; a>=0; a--) {
@@ -222,7 +222,7 @@ void E() {
           for (int k=ducks.size()-1; k>=0; k--) {
             Duck duck=ducks.get(k);
             if (duck.click(false, mouseX, mouseY)&&duck.alive) {
-              killDork(duck);
+              hitDork(duck);
             }
           }
           for (int i=planes.size()-1; i>=0; i--) {

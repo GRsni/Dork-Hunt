@@ -59,7 +59,7 @@ void drawGameState1() {//actual game
       duck.show(); 
       duck.move();
       if (duck.click(true, mouseX, mouseY)&&duck.alive) {
-        killDork(duck);
+        hitDork(duck);
       }
     }
 
@@ -193,11 +193,16 @@ void drawGameState2() {
   String s="User:"+name;
   text(s, 30, 60);
   //for (Ability a:activeAbilities) {
-    activeAbilities[0].display();
-    //image(dorkFrameLeft[i], i*100, 100);
+  activeAbilities[0].display();
+  //image(dorkFrameLeft[i], i*100, 100);
   //}
 
+  //if (threadDone) {
 
+  for (Duck d : ducks) {
+    d.show();
+  }
+  //}
   Button w=new Button(true, 20+s.length()*23.5, 25, 36, 36, 4, 4, #000000, #484848);
   w.show();
 

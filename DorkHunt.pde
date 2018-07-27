@@ -1,4 +1,4 @@
-  import ddf.minim.*; //<>// //<>// //<>//
+import ddf.minim.*; //<>//
 
 
 //Dork Hunt 
@@ -119,12 +119,19 @@ void setup() {
   ammoFont=loadFont("info/Power_Clear_Bold-40.vlw");
   textFont(scoreFont, 30);
   thread("loadStuff");
+  //int starttime=millis();
+  //print("started"+starttime);
+  //for (int i=0; i<100; i++) {
+  //  Duck d=new Duck(width/2, 300, 100);
+  //  ducks.add(d);
+  //}
+  //println("it took"+(millis()-starttime));
 }
 
 void draw() { 
   background(120);
 
-  //println(abilitiesList.size());
+  //println(ducks.size());
   switch(gameState) {
   case 0:
     drawGameState0();//name selection
@@ -382,14 +389,6 @@ void dSpawn() {//spawns the dorks
   } else {
     ducks.add(new Duck(random(width), height-250, random(.5, 1)) );
   }
-
-  //Duck duck= ducks.get(ducks.size()-1); 
-  //if (wActivation==0.5) {
-  //  duck.speed.y=random(-11, -13);
-  //} else {
-  //  duck.speed.y=random(-10, -13);
-  //}
-  //duck.chooseDir();
 }
 
 
@@ -410,59 +409,55 @@ void pSpawn() {//spawns the UFOs
   }
 }
 
-//int dorkLives() {
-
-//}
-
-void killDork(Duck d) {
+void hitDork(Duck d) {
   int point=0;
   clicked=true;
   if (d.lives>1) {
     d.lives--;
   } else {
+    killDork(d);
+  }
+}
 
-    d.alive=false;
-    d.rotation=random(-PI, PI);
-    d.speed.y=0;
-    if (!flags[0]) {
-      splatter.play(0);
-    }
-    killCount++;
-    if (d.initLives==1) {
-      point=200;
-      simpleDorksKilled++;
-    } else if (d.initLives==2) {
-      point=400;
+
+void killDork(Duck d) {
+  d.alive=false;
+  d.rotation=random(-PI, PI);
+  d.speed.y=0;
+  if (!flags[0]) {
+    splatter.play(0);
+  }
+  killCount++;
+  if (d.initLives==1) {
+    simpleDorksKilled++;
+  }
+
+  score+=d.selfScore;
+  points.add(new Score(d.x, d.y, d.selfScore, 0));
+
+  if (!flags[1]) {//easy mode
+    if (random(1)>0.3+log(level)*0.25||killsSinceAmmo>level/2&&d.initLives!=3) {
+      chooseBonus();
+      killsSinceAmmo=0;
+    } else if (d.initLives==3) {
+      killsSinceAmmo=0;
+      int r=10+int(random(5));
+      reloadBullets(r);
+      points.add(new Score(235, height-84, r, 1));
     } else {
-      point=900;
+      killsSinceAmmo++;
     }
-    score+=point;
-    points.add(new Score(d.x, d.y, point, 0));
-
-    if (!flags[1]) {//easy mode
-      if (random(1)>0.3+log(level)*0.25||killsSinceAmmo>level/2&&d.initLives!=3) {
-        chooseBonus();
-        killsSinceAmmo=0;
-      } else if (d.initLives==3) {
-        killsSinceAmmo=0;
-        int r=10+int(random(5));
-        reloadBullets(r);
-        points.add(new Score(235, height-84, r, 1));
-      } else {
-        killsSinceAmmo++;
-      }
-    } else {//hard mode
-      if (random(1)>.4+log(level)*.24||killsSinceAmmo>(25+log(level)*2)&&d.initLives!=3) {
-        chooseBonus();
-        killsSinceAmmo=0;
-      } else if (d.initLives==3) {
-        killsSinceAmmo=0;
-        int r=10+int(random(5));
-        reloadBullets(r);
-        points.add(new Score(235, height-84, r, 1));
-      } else {
-        killsSinceAmmo++;
-      }
+  } else {//hard mode
+    if (random(1)>.4+log(level)*.24||killsSinceAmmo>(25+log(level)*2)&&d.initLives!=3) {
+      chooseBonus();
+      killsSinceAmmo=0;
+    } else if (d.initLives==3) {
+      killsSinceAmmo=0;
+      int r=10+int(random(5));
+      reloadBullets(r);
+      points.add(new Score(235, height-84, r, 1));
+    } else {
+      killsSinceAmmo++;
     }
   }
 }
