@@ -252,10 +252,10 @@ void drawGameState2() {
     }
     popStyle();
   }
-  Duck dL=new Duck(100, 100, 1);
-  dL.show();
-  Duck dR=new Duck(width-100, 100, 1);
-  dR.show();
+  //Duck dL=new Duck(100, 100, 1);
+  //dL.show();
+  //Duck dR=new Duck(width-100, 100, 1);
+  //dR.show();
 
 
   time2++;
