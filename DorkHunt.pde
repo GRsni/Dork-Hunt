@@ -461,7 +461,7 @@ void killPlane(Plane p) {
 }
 
 
-void levelType() {//spawn algorithm 
+void gameLoop() {//spawn algorithm 
 
   if (levelType==2) {
     fill(120, 0, 0); 
