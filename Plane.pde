@@ -7,12 +7,14 @@ class Plane {
   boolean rightDir;
   boolean alive=true;
   int alpha=255;
+  int bullets;
 
   Plane(float X, float Y) {
     x=X;
     y=Y;
     setDirection();
     speed=getSpeed();
+    bullets=getBullets();
   }
 
   void show() {
@@ -63,6 +65,11 @@ class Plane {
     }
   }
 
+  int getBullets() {
+    if (levelType==1) return 20;
+    else return 10;
+  }
+
 
   PVector getSpeed() {
     float angle;
@@ -73,5 +80,13 @@ class Plane {
       angle=map(y, 75, 450, 165, 195);
     }
     return PVector.fromAngle(radians(angle)).setMag((9+level*.15)*wActivation);
+  }
+
+  void die() {
+    points.add(new Score(x, y, 1000, 0));
+    alive=false;
+    speed.y=0;
+    score+=1000;
+    killCount++;
   }
 }

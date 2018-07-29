@@ -16,10 +16,10 @@ class Bullet {
   }
 
   boolean inside(Duck d) {
-    if (x>d.x&&x<d.x+100/d.d&&y>d.y&&y<d.y+100/d.d) {
-      return true;
-    } else {
-      return false;
-    }
+    return x>d.x&&x<d.x+d.w/d.d&&y>d.y&&y<d.y+d.w/d.d;
+  }
+  
+  boolean inside(Plane p){
+    return x>p.x&&x<p.x+p.l&&y>p.y&&y<p.y+p.h;
   }
 }

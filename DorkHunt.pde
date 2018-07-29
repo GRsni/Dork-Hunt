@@ -71,7 +71,7 @@ ArrayList<Ability> abilitiesList=new ArrayList<Ability>();
 Ability[] activeAbilities=new Ability[4];
 Boss boss;
 
-int level=40;
+int level=10;
 static int startAmmo;
 int score=0;
 float up=0.01;
@@ -375,90 +375,10 @@ void keyPressed() {
 
 
 
-
-void dSpawn() {//spawns the dorks
-  if (killCount==0&&!flags[6]) {
-    ducks.add(new Duck(random(width), height-250, random(.5, 1), 1) );
-  } else {
-    ducks.add(new Duck(random(width), height-250, random(.5, 1)) );
-  }
+void eligibleForBonus() {
 }
 
 
-
-void pSpawn() {//spawns the UFOs
-  if (random(1)>.5) {//planes towards the right
-    planes.add(new Plane(-50, random(50, 450))); 
-  } else {//planes towards the left
-    planes.add(new Plane(width+50, random(75, 450))); 
-  }
-}
-
-void hitDork(Duck d) {
-  clicked=true;
-  if (d.lives>1) {
-    d.lives--;
-  } else {
-    killDork(d);
-  }
-}
-
-
-void killDork(Duck d) {
-  d.die();
-  if (!flags[0]) {
-    splatter.play(0);
-  }
-  killCount++;
-  points.add(new Score(d.x, d.y, d.selfScore, 0));
-
-  if (!flags[1]) {//easy mode
-    if (random(1)>0.3+log(level)*0.25||killsSinceAmmo>level/2&&d.initLives!=3) {
-      chooseBonus();
-      killsSinceAmmo=0;
-    } else if (d.initLives==3) {
-      killsSinceAmmo=0;
-      int r=10+int(random(5));
-      reloadBullets(r);
-      points.add(new Score(235, height-84, r, 1));
-    } else {
-      killsSinceAmmo++;
-    }
-  } else {//hard mode
-    if (random(1)>.4+log(level)*.24||killsSinceAmmo>(25+log(level)*2)&&d.initLives!=3) {
-      chooseBonus();
-      killsSinceAmmo=0;
-    } else if (d.initLives==3) {
-      killsSinceAmmo=0;
-      int r=10+int(random(5));
-      reloadBullets(r);
-      points.add(new Score(235, height-84, r, 1));
-    } else {
-      killsSinceAmmo++;
-    }
-  }
-}
-
-void killPlane(Plane p) {
-  clicked=true;
-  points.add(new Score(p.x, p.y, 1000, 0));
-  p.alive=false;
-  p.speed.y=0;
-  if (!flags[0]) {
-    UFOCrash.play(0);
-  }
-  score+=1000;
-  killCount++;
-  int reloadAmount;
-  if (levelType==2) {
-    reloadAmount=10;
-    reloadBullets(10);
-  } else {
-    reloadAmount=20;
-    reloadBullets(reloadAmount);
-  }
-  points.add(new Score(235, height-84, reloadAmount, 1));
-}
 
 
 void gameLoop() {//spawn algorithm 
@@ -525,77 +445,43 @@ void gameLoop() {//spawn algorithm
 
 void levelChoose() {//level selection
   if (flags[1]) {//hard
-    if (level%20==0&&level%15!=0) {
-      for (int j=0; j<ducks.size(); j++) {
-        ducks.remove(j);
-      }
+    if (level%20==0&&level%15!=0) {//ufo level
+      ducks=new ArrayList<Duck>();
       levelType=2;
       bonusTime=millis();
       txtSize=70;
-    } else if (level%15==0) {
-      for (int i=0; i<ducks.size(); i++) {
-        ducks.remove(i);
-      }
-      for (int j=0; j<planes.size(); j++) {
-        planes.remove(j);
-      }
+    } else if (level%15==0) {//boss level
+      ducks=new ArrayList<Duck>();
+      planes=new ArrayList<Plane>();
       levelType=3;
       txtSize=100;
-    } else {
+    } else {//dork level
       levelType=1;
-      if (level-1%10==0) {
-        for (int j=0; j<planes.size(); j++) {
-          planes.remove(j);
-        }
-      }
+      //if (level-1%10==0) {
+      //  planes=new ArrayList<Plane>();
+      //}
     }
   } else {//easy 
-    if (level%10==0&&level%15!=0) {
-      for (int j=0; j<ducks.size(); j++) {
-        ducks.remove(j);
-      }
+    if (level%10==0&&level%15!=0) {//ufo level
+      ducks=new ArrayList<Duck>();
       levelType=2;
       txtSize=70;
       bonusTime=millis();
-    } else if (level%15==0) {
-      for (int i=0; i<ducks.size(); i++) {
-        ducks.remove(i);
-      }
-      for (int j=0; j<planes.size(); j++) {
-        planes.remove(j);
-      }
+    } else if (level%15==0) {//boss level
+      ducks=new ArrayList<Duck>();
+      planes=new ArrayList<Plane>();
       levelType=3;
       txtSize=100;
-    } else {
+    } else {//dork level
       levelType=1;
-      if (level-1%10==0) {
-        for (int j=0; j<planes.size(); j++) {
-          planes.remove(j);
-        }
-      }
+      //if (level-1%10==0) {
+
+      //}
     }
   }
 }
 
-void removeMissedDorks() {
-  for (int i=ducks.size()-1; i>=0; i--) {
-    Duck duck=ducks.get(i); 
-    if (duck.y>height-200&&duck.alive) {
-      points.add(new Score(width-150, 90, -1000, 0)); 
-      score-=1000; 
-      ducks.remove(i);
-      life-=5;
-    }
-  }
-}
-void removeMissedPlanes() {
-  for (int i=planes.size()-1; i>=0; i--) {//remove missed planes
-    Plane p= planes.get(i); 
-    if (p.outOfTheBorders()) {
-      planes.remove(i);
-    }
-  }
-}
+
 
 
 void levelUpCheck() {//check level up requirements
@@ -699,9 +585,6 @@ void reloadBullets(int num) {
     }
   }
   shotIndex+=num;
-  //for (int i=0; i<num; i++) {
-  //  shotIndex++;
-  //}
 }
 
 void pauseAllMusic() {
@@ -847,21 +730,23 @@ void scoreBoardAnim() {//fades the scoreboard if a dork or plane gets behind
 }
 
 
-void chooseBonus() {//randomly selects the amount of ammunition
+void chooseAmountOfBullets() {//randomly selects the amount of ammunition
   int R= (int)random(1, 15); 
   reloadBullets(R); 
   points.add(new Score(235, height-84, R, 1));
 }
 
 void bulletRemove() {//erases bullets that hit targets
-  for (int i=0; i<ducks.size(); i++) {
-    Duck duck=ducks.get(i); 
-    for (int j=bullets.size()-1; j>=0; j--) {
-      Bullet b=bullets.get(j);
-      if (ducks.size()>0) {
-        if (b.inside(duck)) {
-          bullets.remove(j);
-        }
+  for (int i=bullets.size()-1; i>=0; i--) {
+    Bullet b=bullets.get(i);
+    for (int j=0; j<ducks.size(); j++) {
+      if (b.inside(ducks.get(i))) {
+        bullets.remove(i);
+      }
+    }
+    for (int j=0; j<planes.size(); j++) {
+      if (b.inside(planes.get(j))) {
+        bullets.remove(i);
       }
     }
   }

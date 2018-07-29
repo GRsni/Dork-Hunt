@@ -80,7 +80,6 @@ class Button {//Asks whether changes color, for an X, Y, xlength, y length, corn
       if (X_>x&&X_<(x+Xl)) {
         if (Y_>y&&Y_<(y+Yl)) {
           if (mousePressed) {
-
             return true;
           }
         }
