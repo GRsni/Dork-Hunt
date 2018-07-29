@@ -160,7 +160,7 @@ void drawGameState1() {//actual game
     levelUpCheck(); 
     checkGameLoseCondition(); 
 
-    levelType();
+    gameLoop();
     removeMissedDorks();
     removeMissedPlanes();
     abilitiesAnim();
