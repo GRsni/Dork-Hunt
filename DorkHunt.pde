@@ -1,4 +1,4 @@
-import ddf.minim.*; //<>//
+import ddf.minim.*; //<>// //<>//
 
 
 //Dork Hunt 
@@ -37,8 +37,8 @@ PImage planeBoom;
 PImage volume;
 PImage mute;
 PImage wrench;
-PImage[] cursor=new PImage[6];
-PImage[] whiteCursor=new PImage[6];
+PImage[] cursor=new PImage[7];
+PImage[] whiteCursor=new PImage[7];
 PImage[] QWER = new PImage[4];
 PImage[] bossIm= new PImage[5];
 PImage[] userHealth=new PImage[10];
@@ -538,7 +538,7 @@ void levelUpMethod() {
   }
 }
 
-void checkGameLoseCondition() {//lose condition when out of ammo
+void checkGameLoseCondition() {//lose condition is when out of ammo
   if (shotIndex<1) {
     gameState=4; 
     highScoreLeaderBoard();
