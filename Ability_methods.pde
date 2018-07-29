@@ -294,7 +294,7 @@ void R() {
       score+=200;
 
       if (random(1)>0.5+log(level)*0.1) {
-        chooseBonus();
+        chooseAmountOfBullets();
       }
     }
     for (int i=planes.size()-1; i>=0; i--) {

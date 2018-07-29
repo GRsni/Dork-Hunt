@@ -39,41 +39,41 @@ class Duck {
   void show() {
     pushStyle();
     //if (y+(w*1/d)<height-250) {
-      if (frameCount%15==0) { 
-        fCount++;
-      }
-      if (!alive) {
-        pushMatrix();
+    if (frameCount%15==0) { 
+      fCount++;
+    }
+    if (!alive) {
+      pushMatrix();
 
-        translate(x+w/d/2, y+w/d/2);
-        tint(255, alpha);
-        alpha-=int(255/35);
-        rotate(rotation);
+      translate(x+w/d/2, y+w/d/2);
+      tint(255, alpha);
+      alpha-=int(255/35);
+      rotate(rotation);
 
 
-        image(dorkExp, -w/d/2, -w/d/2, w/d, w/d);
-        popMatrix();
-      } else {
-        if (speed.x>0) {//left
+      image(dorkExp, -w/d/2, -w/d/2, w/d, w/d);
+      popMatrix();
+    } else {
+      if (speed.x>0) {//left
 
-          int frameIndex=fCount%4;
-          if (lives==1) {
-            image(dorkFrameLeft[frameIndex], x, y, w/d, w/d);
-          } else {
-            tint(map(lives, 2, 3, 200, 150), map(lives, 2, 3, 80, 108), 0);
-            image(dorkFrameLeft[frameIndex], x, y, w/d, w/d);
-          }
-        } else {//right
-          int frameIndex=fCount%4;
-          //println(frameIndex);
-          if (lives==1) {
-            image(dorkFrameRight[frameIndex], x, y, w/d, w/d);
-          } else {
-            tint(map(lives, 2, 3, 200, 150), map(lives, 2, 3, 80, 108), 0);
-            image(dorkFrameRight[frameIndex], x, y, w/d, w/d);
-          }
+        int frameIndex=fCount%4;
+        if (lives==1) {
+          image(dorkFrameLeft[frameIndex], x, y, w/d, w/d);
+        } else {
+          tint(map(lives, 2, 3, 200, 150), map(lives, 2, 3, 80, 108), 0);
+          image(dorkFrameLeft[frameIndex], x, y, w/d, w/d);
+        }
+      } else {//right
+        int frameIndex=fCount%4;
+        //println(frameIndex);
+        if (lives==1) {
+          image(dorkFrameRight[frameIndex], x, y, w/d, w/d);
+        } else {
+          tint(map(lives, 2, 3, 200, 150), map(lives, 2, 3, 80, 108), 0);
+          image(dorkFrameRight[frameIndex], x, y, w/d, w/d);
         }
       }
+    }
     //}
     if (y+(w/d)<0) {
       stroke(255);
@@ -105,14 +105,20 @@ class Duck {
     }
   }
 
+  float chooseMovementAngle() {
+    if (x>width/2) return random(225, 250);
+    else return random(290, 315);
+  }
+
   PVector chooseStartingSpeed() {
+    float angle=chooseMovementAngle();
+    float vectorMag;
     if (x>width/2) {
-      float angle=random(225,250);
-      return PVector.fromAngle(radians(angle)).setMag(10*wActivation);
+      vectorMag=map(angle, 225, 250, 10, 12.5);
     } else {
-      float angle=random(290, 315);
-      return PVector.fromAngle(radians(angle)).setMag(10*wActivation);
+      vectorMag=map(angle, 290, 315, 12.5, 10);
     }
+    return PVector.fromAngle(radians(angle)).setMag(vectorMag);
   }
 
   int getLives() {
@@ -146,5 +152,7 @@ class Duck {
     if (initLives==1) {
       simpleDorksKilled++;
     }
+    killCount++;
+    points.add(new Score(x, y, selfScore, 0));
   }
 }
