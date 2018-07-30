@@ -38,6 +38,10 @@ class Plane {
       x+=speed.x*wActivation/2;
     }
   }
+  boolean click(boolean c, float X, float Y) {
+    if (c) return inside(X, Y)&&mousePressed&&!clicked;
+    else return inside(X, Y);
+  }
 
   boolean inside(float X, float Y) {
     return X>x&&X<x+l&&Y>y&&Y<y+h;

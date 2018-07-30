@@ -13,7 +13,7 @@ void removeMissedDorks() {
       points.add(new Score(width-150, 90, -1000, 0)); 
       score-=1000; 
       ducks.remove(i);
-      life-=5;
+      //life-=5;
     }
   }
 }
@@ -35,26 +35,21 @@ void killDork(Duck d) {
   }
 
   if (!flags[1]) {//easy mode
-    if (random(1)>0.3+log(level)*0.25||killsSinceAmmo>level/2&&d.initLives!=3) {
+    //if (random(1)>0.3+log(level)*0.25||killsSinceAmmo>level/2&&d.initLives!=3) {
+      if(d.initLives==3){
+      chooseAmountOfBullets(10, 100);
+    //} else if (d.initLives==3) {
+    }else if(random(1)>.3+log(level)*.25||killsSinceAmmo>level/2){
       chooseAmountOfBullets();
-      killsSinceAmmo=0;
-    } else if (d.initLives==3) {
-      killsSinceAmmo=0;
-      int r=10+int(random(5));
-      reloadBullets(r);
-      points.add(new Score(235, height-84, r, 1));
     } else {
       killsSinceAmmo++;
     }
   } else {//hard mode
-    if (random(1)>.4+log(level)*.24||killsSinceAmmo>(25+log(level)*2)&&d.initLives!=3) {
+  if(d.initLives==3){
+    //if (random(1)>.4+log(level)*.24||killsSinceAmmo>(25+log(level)*2)&&d.initLives!=3) {
+      chooseAmountOfBullets(10, 5);
+    } else if (random(1)>.4+log(level)*.24||killsSinceAmmo>(20+log(level)*2)) {
       chooseAmountOfBullets();
-      killsSinceAmmo=0;
-    } else if (d.initLives==3) {
-      killsSinceAmmo=0;
-      int r=10+int(random(5));
-      reloadBullets(r);
-      points.add(new Score(235, height-84, r, 1));
     } else {
       killsSinceAmmo++;
     }
@@ -83,11 +78,9 @@ void removeMissedPlanes() {
 void killPlane(Plane p) {
   clicked=true;
   p.die();
+  reloadBullets(p.bullets);
+  points.add(new Score(235, height-84, p.bullets, 1));
   if (!flags[0]) {
     UFOCrash.play(0);
   }
-
-  int reloadAmount=p.bullets;
-  reloadBullets(reloadAmount);
-  points.add(new Score(235, height-84, reloadAmount, 1));
 }

@@ -3,7 +3,7 @@ class Duck {
   float y;
   float d;
   float w=100;
-  int lives, initLives, selfScore;
+  int lives, initLives, selfScore, bullets;
   PVector speed;
   boolean alive=true;
   int fCount=0;
@@ -28,7 +28,9 @@ class Duck {
     y=Y;
     d=D;
     lives=L;
-    initLives=lives;
+    initLives=L;
+    //initLives=3;
+    //lives=3;
     if (initLives==1) selfScore=200;
     else if (initLives==2) selfScore=400;
     else selfScore=900;
@@ -133,11 +135,8 @@ class Duck {
   }
 
   boolean click(boolean c, float X_, float Y_) {
-    if (c) {
-      return(inside(X_, Y_))&&mousePressed&&!clicked;
-    } else {
-      return(inside(X_, Y_));
-    }
+    if (c) return(inside(X_, Y_))&&mousePressed&&!clicked;
+    else return(inside(X_, Y_));
   }
 
   boolean inside(float X, float Y) {

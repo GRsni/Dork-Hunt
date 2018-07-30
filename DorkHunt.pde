@@ -1,12 +1,12 @@
-import ddf.minim.*; //<>// //<>//
+import ddf.minim.*; //<>//
 
 
 //Dork Hunt 
 //Game by GRsni
-//Version 1.2.5 for Processing 3.x
+//Version 1.X.X for Processing 3.x
 //---------------------------------------
 //TO DO:
-//Re-balance bullet usage(needs testing)
+//Reformat the whole code
 //---------------------------------------
 //All audio files belong to their respective owners.
 //---------------------------------------
@@ -58,7 +58,7 @@ boolean[] abilities=new boolean[4];
 float[] remains=new float[4];
 int lastMillis;
 int wTime, eTime, wRest, eRest;
-int bonusTime;
+int bonusTime, bonusLevelDuration=4500;//duration in milliseconds
 float wActivation=1.0;
 boolean eActivation=false;
 
@@ -71,31 +71,33 @@ ArrayList<Ability> abilitiesList=new ArrayList<Ability>();
 Ability[] activeAbilities=new Ability[4];
 Boss boss;
 
-int level=10;
+int level=1;
 static int startAmmo;
 int score=0;
-float up=0.01;
 final static float grav=.1;
 float life=100;
 int listPos=0;
 int txtSize;
 int cursorType;
 boolean typing;
-boolean newHigh=false;
-boolean nameDone=false;
+boolean newHigh;
+boolean nameDone;
 boolean[] cutScenes=new boolean[4];
 
 int gameState=0;
 int levelType=1;
-boolean gameStart=false;
-boolean clicked=false;
-boolean threadDone=false;
+boolean gameStart;
+boolean clicked;
+boolean threadDone;
+boolean changingBackground;
+color lastBackground, actualBackground;
+float[] steps;
+color[] backgrounds=new color[3];
+boolean bossSpawned;
 
-boolean bossSpawned=false;
-
-int killCount=0;
-int killsSinceAmmo=0;
-int simpleDorksKilled;
+int killCount, killsSinceAmmo, simpleDorksKilled;
+//int killsSinceAmmo=0;
+//int simpleDorksKilled;
 
 int shotIndex;
 float angle=0;
@@ -103,16 +105,17 @@ int time2=0;
 
 
 void setup() { 
-  fullScreen();
-  //size(1200, 600);
+  //fullScreen();
+  size(1200, 600);
 
   titlebaricon=loadImage("data/art/dorkIcon.png");
-
+  //frameRate(1);
 
   surface.setIcon(titlebaricon);
   surface.setTitle("Dork Hunt");
   minim =new Minim(this);
   noCursor();
+  print(colorEquals(color(1, 10, 1), color(1, 9, 1)));
 
 
   scoreFont=loadFont("info/OCRAExtended.vlw");
@@ -124,7 +127,7 @@ void setup() {
 void draw() { 
   background(120);
 
-  println(ducks.size());
+  //println(actualBackground>>16&0xFF, actualBackground>>8&0xFF, actualBackground&0xFF, changingBackground);
   switch(gameState) {
   case 0:
     drawGameState0();//name selection
@@ -173,7 +176,7 @@ void mousePressed() {
             shot.rewind();
           }
           bullets.add(new Bullet(mouseX, mouseY, 0)); 
-          bulletRemove(); 
+          //bulletRemove(); 
 
           shotIndex--;
         }
@@ -253,6 +256,11 @@ void keyPressed() {
   if (!typing) {
     if (key==ESC&&key==SHIFT) {
       exit();
+    }
+    if (key=='a') {
+      level++;
+      levelChoose();
+      controlSpawns();
     }
     if (key==ESC) {
 
@@ -381,7 +389,7 @@ void eligibleForBonus() {
 
 
 
-void gameLoop() {//spawn algorithm 
+void controlSpawns() {//spawn algorithm 
 
   if (levelType==2) {
     fill(120, 0, 0); 
@@ -444,6 +452,13 @@ void gameLoop() {//spawn algorithm
 
 
 void levelChoose() {//level selection
+  lastBackground=backgrounds[levelType-1];
+  actualBackground=backgrounds[levelType-1];
+  steps=getChangingColorSteps(lastBackground);
+  changingBackground=true;
+  println("lastB", lastBackground>>16&0xFF, lastBackground>>8&0xFF, lastBackground&0xFF);
+
+
   if (flags[1]) {//hard
     if (level%20==0&&level%15!=0) {//ufo level
       ducks=new ArrayList<Duck>();
@@ -479,6 +494,9 @@ void levelChoose() {//level selection
       //}
     }
   }
+  //actualBackground=backgrounds[levelType-1];
+  println("actualB", actualBackground>>16&0xFF, actualBackground>>8&0xFF, actualBackground&0xFF);
+  printArray(steps);
 }
 
 
@@ -509,7 +527,7 @@ void levelUpCheck() {//check level up requirements
       points.add(new Score(width/2, height-500, 0, 2));//floating text
     }
   } else if (levelType==2) {
-    if (millis()-bonusTime>450000) {
+    if (millis()-bonusTime>bonusLevelDuration) {
       points.add(new Score(width/2, height-500, 0, 2));
       levelUpMethod();
     }
@@ -531,6 +549,7 @@ int getLevelUpThreshold(int lev) {
 
 void levelUpMethod() {
   level++;
+
   levelChoose();
   killCount=0;
   if (!flags[0]) { 
@@ -575,17 +594,8 @@ void resetGame() {//resets all dorks, planes, and bullets and refills the ammo, 
   }
 }
 
-void reloadAmmoMethod(int baseVal, int randomVal ) {
-}
 
-void reloadBullets(int num) {
-  if (gameState==1) {
-    if (!flags[0]) {
-      reloadSound.play(0);
-    }
-  }
-  shotIndex+=num;
-}
+
 
 void pauseAllMusic() {
   theme.pause();
@@ -596,6 +606,44 @@ void pauseAllMusic() {
   levelUp.pause();
   noAmmo.pause();
   UFOCrash.pause();
+}
+
+color getBackgroundColor() {
+  if (!changingBackground) { 
+    return backgrounds[levelType-1];
+  } else {
+    return graduallyChangeBackground();
+  }
+}
+
+
+boolean colorEquals(color a, color b) {
+  int R=(a>>16&0xFF)-(b>>16&0xFF);
+  int G=(a>>8&0xFF)-(b>>8&0xFF);
+  int B=(a&0xFF)-(b&0xFF);
+  if (R==0&&G==0&&B==0) return true;
+  else return false;
+}
+
+color graduallyChangeBackground() {
+  int cArray[]=new int[3];
+  for (int i=0; i<cArray.length; i++) {
+    int shift=16-i*8;
+    cArray[i]=actualBackground>>shift&0xFF;
+    cArray[i]+=steps[i];
+  }
+  actualBackground=color(cArray[0], cArray[1], cArray[2]);
+  return actualBackground;
+}
+
+
+float[] getChangingColorSteps(color col) {
+  float[] steps=new float[3];
+  for (int i=0; i<steps.length; i++) {
+    int shift=16-i*8;
+    steps[i]=((backgrounds[0]>>shift&0xFF)-(col>>shift&0xFF))/60.0;
+  }
+  return steps;
 }
 
 void createContourInDimmedScreen(PVector pos, float wid, float hei) {
@@ -730,24 +778,43 @@ void scoreBoardAnim() {//fades the scoreboard if a dork or plane gets behind
 }
 
 
-void chooseAmountOfBullets() {//randomly selects the amount of ammunition
-  int R= (int)random(1, 15); 
-  reloadBullets(R); 
-  points.add(new Score(235, height-84, R, 1));
-}
 
-void bulletRemove() {//erases bullets that hit targets
-  for (int i=bullets.size()-1; i>=0; i--) {
-    Bullet b=bullets.get(i);
-    for (int j=0; j<ducks.size(); j++) {
-      if (b.inside(ducks.get(i))) {
-        bullets.remove(i);
-      }
-    }
-    for (int j=0; j<planes.size(); j++) {
-      if (b.inside(planes.get(j))) {
-        bullets.remove(i);
-      }
+void reloadBullets(int num) {
+  if (gameState==1) {
+    if (!flags[0]) {
+      reloadSound.play(0);
     }
   }
+  shotIndex+=num;
+  killsSinceAmmo=0;
+  points.add(new Score(235, height-84, num, 1));
 }
+
+
+
+void chooseAmountOfBullets() {//selects and reloads the ammo
+  int R= (int)random(1, 15); 
+  reloadBullets(R);
+}
+
+
+void chooseAmountOfBullets(int base, int rand) {//selects and reloads the ammo
+  int R= base+int(random(rand)); 
+  reloadBullets(R);
+}
+
+//void bulletRemove() {//erases bullets that hit targets
+//  for (int i=bullets.size()-1; i>=0; i--) {
+//    Bullet b=bullets.get(i);
+//    for (int j=0; j<ducks.size(); j++) {
+//      if (b.inside(ducks.get(i))) {
+//        bullets.remove(i);
+//      }
+//    }
+//    for (int j=0; j<planes.size(); j++) {
+//      if (b.inside(planes.get(j))) {
+//        bullets.remove(i);
+//      }
+//    }
+//  }
+//}

@@ -41,7 +41,10 @@ void drawGameState0() {
 void drawGameState1() {//actual game
   pushStyle();
   rectMode(CORNER);
-  background(#54C0FF);
+   if (colorEquals(backgrounds[0],actualBackground)) {
+    changingBackground=false;
+  }
+  background(getBackgroundColor());
 
   textFont(scoreFont);
   textAlign(BOTTOM, BOTTOM);
@@ -71,7 +74,8 @@ void drawGameState1() {//actual game
       plane.move();
       plane.show(); 
       //if (mouseX>plane.x&&mouseX<(plane.x+plane.l)&&mouseY>plane.y&&mouseY<(plane.y+plane.h)&&mousePressed&&!clicked&&shotIndex>0&&plane.alive) {
-      if (plane.inside(mouseX, mouseY)&&mousePressed&&!clicked&&shotIndex>0&&plane.alive) {
+      //if (plane.inside(mouseX, mouseY)&&mousePressed&&!clicked&&shotIndex>0&&plane.alive) {
+      if (plane.click(true, mouseX, mouseY)&&plane.alive) {
         killPlane(plane);
       }
     }
@@ -160,7 +164,7 @@ void drawGameState1() {//actual game
     levelUpCheck(); 
     checkGameLoseCondition(); 
 
-    gameLoop();
+    controlSpawns();
     removeMissedDorks();
     removeMissedPlanes();
     abilitiesAnim();
@@ -517,6 +521,7 @@ void drawGameState5() {
   for (Plane plane : planes) {
     plane.show();
   }
+  if (bossSpawned) boss.show();
   image(scoreboard, width-300, 0); //scoreboard
   textSize(35); 
   fill(#FFD800); 
