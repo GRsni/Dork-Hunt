@@ -181,6 +181,7 @@ void loadStuff() {
   QWER[3]=loadImage("data/art/abilities/nuke.png");
 
   loadAbilities();
+  loadColors();
 
   bossIm[0]=loadImage("art/bossHead.png");
   bossIm[1]=loadImage("art/bossArmLeft.png"); 
@@ -216,6 +217,12 @@ void highScoreLeaderBoard() {
     checkScore(score, scoreNum, scoreList); 
     saveScores();
   }
+}
+
+void loadColors() {
+  backgrounds[0]=color(84, 192, 255);
+  backgrounds[1]=color(204, 132, 255);
+  backgrounds[2]=color(84, 72, 75);
 }
 
 void loadAbilities() {
