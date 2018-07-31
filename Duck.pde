@@ -40,7 +40,6 @@ class Duck {
 
   void show() {
     pushStyle();
-    //if (y+(w*1/d)<height-250) {
     if (frameCount%15==0) { 
       fCount++;
     }
@@ -67,7 +66,6 @@ class Duck {
         }
       } else {//right
         int frameIndex=fCount%4;
-        //println(frameIndex);
         if (lives==1) {
           image(dorkFrameRight[frameIndex], x, y, w/d, w/d);
         } else {
@@ -76,7 +74,6 @@ class Duck {
         }
       }
     }
-    //}
     if (y+(w/d)<0) {
       stroke(255);
       strokeWeight(2);
@@ -99,13 +96,6 @@ class Duck {
     }
   }
 
-
-  void edges() {
-    if (x<0||x+w/d>width) {
-      speed.x*=-1;
-      println("edge");
-    }
-  }
 
   float chooseMovementAngle() {
     if (x>width/2) return random(225, 250);

@@ -78,7 +78,6 @@ class Plane {
   PVector getSpeed() {
     float angle;
     if (rightDir) {
-      //float angle=random(5, 15);
       angle=map(y, 50, 450, 15, -10);
     } else {
       angle=map(y, 75, 450, 165, 195);
