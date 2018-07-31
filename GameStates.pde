@@ -88,6 +88,9 @@ void drawGameState1() {//actual game
     image(desktop, 0, height-250);
     textSize(20);
     text(int(frameRate), 0, 20);
+    for(int i=0; i<userHealth.length; i++){
+     image(userHealth[i], 25+i*50, height-100); 
+    }
 
     noFill();
     rectMode(CORNER);
@@ -161,6 +164,7 @@ void drawGameState1() {//actual game
         bullets.remove(i);
       }
     }
+    AI();
     levelUpCheck(); 
     checkGameLoseCondition(); 
 

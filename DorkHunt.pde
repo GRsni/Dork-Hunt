@@ -1,4 +1,5 @@
-import ddf.minim.*; //<>//
+import ddf.minim.*;  //<>//
+import java.awt.*;
 
 
 //Dork Hunt 
@@ -26,6 +27,7 @@ AudioPlayer eSound;
 AudioPlayer rSound;
 AudioPlayer pieceBoom;
 
+Robot r;
 
 PImage titlebaricon;
 PImage desktop;
@@ -104,12 +106,13 @@ float angle=0;
 int time2=0;
 
 
-void setup() { 
-  //fullScreen();
-  size(1200, 600);
+void setup() {
+  
+  fullScreen();
+  //size(1200, 600);
 
   titlebaricon=loadImage("data/art/dorkIcon.png");
-  //frameRate(1);
+  frameRate(120);
 
   surface.setIcon(titlebaricon);
   surface.setTitle("Dork Hunt");
@@ -384,8 +387,7 @@ void keyPressed() {
 
 
 
-void eligibleForBonus() {
-}
+
 
 
 
@@ -396,7 +398,7 @@ void controlSpawns() {//spawn algorithm
     pushStyle();
     colorMode(HSB, 360, 1, 1);
     fill(angle*10, 1, 1); 
-    if(angle*10>360) angle=0;
+    if (angle*10>360) angle=0;
     textAlign(CENTER); 
     if (txtSize>30) {
       textSize(txtSize);
@@ -459,13 +461,13 @@ void controlSpawns() {//spawn algorithm
 void levelChoose() {//level selection
   if (flags[1]) {//hard
     if (level%20==0&&level%15!=0) {//ufo level
-      ducks=new ArrayList<Duck>();
+      ducks.clear();
       levelType=2;
       bonusTime=millis();
       txtSize=70;
     } else if (level%15==0) {//boss level
-      ducks=new ArrayList<Duck>();
-      planes=new ArrayList<Plane>();
+      ducks.clear();
+      planes.clear();
       levelType=3;
       txtSize=100;
     } else {//dork level
@@ -473,13 +475,13 @@ void levelChoose() {//level selection
     }
   } else {//easy 
     if (level%10==0&&level%15!=0) {//ufo level
-      ducks=new ArrayList<Duck>();
+      ducks.clear();
       levelType=2;
       txtSize=70;
       bonusTime=millis();
     } else if (level%15==0) {//boss level
-      ducks=new ArrayList<Duck>();
-      planes=new ArrayList<Plane>();
+      ducks.clear();
+      planes.clear();
       levelType=3;
       txtSize=100;
     } else {//dork level

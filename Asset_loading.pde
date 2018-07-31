@@ -190,7 +190,7 @@ void loadStuff() {
   bossIm[4]=loadImage("art/bossBody.png");
 
   for (int i=0; i<userHealth.length; i++) {
-    userHealth[i]=loadImage("art/dorkIcon.png");
+    userHealth[i]=dorkFrameRight[0];
   }
   loadFlags();
   loadJSONflags();
