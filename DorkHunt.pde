@@ -259,6 +259,7 @@ void keyPressed() {
     }
     if (key=='a') {
       level++;
+      startBackgroundColorChange();
       levelChoose();
       controlSpawns();
     }
@@ -392,7 +393,10 @@ void eligibleForBonus() {
 void controlSpawns() {//spawn algorithm 
 
   if (levelType==2) {
-    fill(120, 0, 0); 
+    pushStyle();
+    colorMode(HSB, 360, 1, 1);
+    fill(angle*10, 1, 1); 
+    if(angle*10>360) angle=0;
     textAlign(CENTER); 
     if (txtSize>30) {
       textSize(txtSize);
@@ -401,6 +405,7 @@ void controlSpawns() {//spawn algorithm
     }
     textAlign(LEFT, TOP ); 
     text("Bonus level", 0, 5);
+    popStyle();
     if (!abilities[1]) {
       if (frameCount%10==0) {
         pSpawn();
@@ -452,13 +457,6 @@ void controlSpawns() {//spawn algorithm
 
 
 void levelChoose() {//level selection
-  lastBackground=backgrounds[levelType-1];
-  actualBackground=backgrounds[levelType-1];
-  steps=getChangingColorSteps(lastBackground);
-  changingBackground=true;
-  println("lastB", lastBackground>>16&0xFF, lastBackground>>8&0xFF, lastBackground&0xFF);
-
-
   if (flags[1]) {//hard
     if (level%20==0&&level%15!=0) {//ufo level
       ducks=new ArrayList<Duck>();
@@ -472,9 +470,6 @@ void levelChoose() {//level selection
       txtSize=100;
     } else {//dork level
       levelType=1;
-      //if (level-1%10==0) {
-      //  planes=new ArrayList<Plane>();
-      //}
     }
   } else {//easy 
     if (level%10==0&&level%15!=0) {//ufo level
@@ -489,14 +484,8 @@ void levelChoose() {//level selection
       txtSize=100;
     } else {//dork level
       levelType=1;
-      //if (level-1%10==0) {
-
-      //}
     }
   }
-  //actualBackground=backgrounds[levelType-1];
-  println("actualB", actualBackground>>16&0xFF, actualBackground>>8&0xFF, actualBackground&0xFF);
-  printArray(steps);
 }
 
 
@@ -549,7 +538,7 @@ int getLevelUpThreshold(int lev) {
 
 void levelUpMethod() {
   level++;
-
+  startBackgroundColorChange();
   levelChoose();
   killCount=0;
   if (!flags[0]) { 
@@ -606,6 +595,12 @@ void pauseAllMusic() {
   levelUp.pause();
   noAmmo.pause();
   UFOCrash.pause();
+}
+
+void startBackgroundColorChange() {
+  actualBackground=backgrounds[levelType-1];
+  steps=getChangingColorSteps(actualBackground);
+  changingBackground=true;
 }
 
 color getBackgroundColor() {

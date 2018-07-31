@@ -1,16 +1,8 @@
 class Button {//Asks whether changes color, for an X, Y, xlength, y length, corner radius, strokeWeight, inside fill, stroke color, text inside, text color 
-  float x;
-  float y;
-  float Xl;
-  float Yl;
-  float corners;
+  float x, y, Xl, Yl, corners;
   int rimWidth;
-  color in;
-  color out;
-  color inside;
-  color border;
+  color in, out, inside, border, letter;
   String content;
-  color letter;
   boolean change;
 
   Button(boolean Ch, float x_, float y_, float Xlength, float Ylength, float c, int stroke, color inside, color rim) {
