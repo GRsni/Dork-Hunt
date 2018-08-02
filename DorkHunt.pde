@@ -261,7 +261,11 @@ void keyPressed() {
     if (key=='a') {
       level++;
       startBackgroundColorChange();
+      //<<<<<<< HEAD
       chooseNextLevel();
+      //=======
+      levelChoose();
+      //>>>>>>> master
       controlSpawns();
     }
     if (key==ESC) {
@@ -410,6 +414,11 @@ void controlSpawns() {//spawn algorithm
     if (frameCount%10==0) {
       pSpawn();
     }
+    //} else {
+    //if (frameCount%20==0) {
+    //  pSpawn();
+    //  //}
+    //}
   } else if (levelType==1) {
     if (!flags[1]) {
       if (frameCount%ceil(100/(.1*level+1))==0) {
@@ -447,7 +456,11 @@ void controlSpawns() {//spawn algorithm
 
 
 
-void chooseNextLevel() {//level selection
+
+
+
+
+void levelChoose() {//level selection
   if (flags[1]) {//hard
     if (level%20==0&&level%15!=0) {//ufo level
       ducks.clear();
@@ -478,6 +491,9 @@ void chooseNextLevel() {//level selection
     }
   }
 }
+
+
+
 
 
 void levelUpCheck() {//check level up requirements
@@ -529,8 +545,7 @@ void levelUpMethod() {
   level++;
 
   startBackgroundColorChange();
-  chooseNextLevel();
-
+  levelChoose();
   killCount=0;
   if (!flags[0]) { 
     levelUp.play(0);
@@ -566,7 +581,7 @@ void resetGame() {//resets all dorks, planes, and bullets and refills the ammo, 
   ducks.clear();
   points.clear();
   planes.clear();
-  bullets.clear();
+  bullets=new ArrayList<Bullet>();
 
   for (int i=0; i<abilities.length; i++) {
     abilities[i]=false;
@@ -589,6 +604,15 @@ void pauseAllMusic() {
 }
 
 
+
+
+
+
+
+
+
+
+
 void reloadBullets(int num) {
   if (gameState==1) {
     if (!flags[0]) {
@@ -602,6 +626,7 @@ void reloadBullets(int num) {
 
 
 
+//>>>>>>> master
 void chooseAmountOfBullets() {//selects and reloads the ammo
   int R= (int)random(1, 15); 
   reloadBullets(R);
