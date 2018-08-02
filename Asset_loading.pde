@@ -203,16 +203,16 @@ void loadStuff() {
 
 
   if (flags[1]) {
-    startAmmo=250000;
+    startAmmo=25000;
   } else {
-    startAmmo=500000;
+    startAmmo=50000;
   }
   shotIndex=startAmmo;
   levelChoose();
   threadDone=true;
 }
 
-void highScoreLeaderBoard() {
+void updateScoreLeaderBoard() {
   if (score>0) {
     checkScore(score, scoreNum, scoreList); 
     saveScores();

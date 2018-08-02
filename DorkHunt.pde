@@ -445,14 +445,13 @@ void controlSpawns() {//spawn algorithm
     }
 
     if (!bossSpawned) {
-      PVector aux1=new PVector(random(240, 250), random(180, 300));
-      PVector aux2=new PVector(width-random(240, 260), random(180, 300));
-      PVector aux3=new PVector(random(width/2-95, width/2-55), random(50, 70));
-      boss=new Boss(aux1, aux2, aux3);
-      bossSpawned=true;
+      spawnBoss();
     }
   }
 }
+
+
+
 
 
 
@@ -538,8 +537,10 @@ int getLevelUpThreshold(int lev) {
 
 void levelUpMethod() {
   level++;
+
   startBackgroundColorChange();
   levelChoose();
+
   killCount=0;
   if (!flags[0]) { 
     levelUp.play(0);
@@ -549,7 +550,7 @@ void levelUpMethod() {
 void checkGameLoseCondition() {//lose condition is when out of ammo
   if (shotIndex<1) {
     gameState=4; 
-    highScoreLeaderBoard();
+    updateScoreLeaderBoard();
     if (!flags[0]) {
       loss.play(0);
     }
@@ -572,9 +573,9 @@ void resetGame() {//resets all dorks, planes, and bullets and refills the ammo, 
   } else {
     reloadBullets(25);
   }
-  ducks=new ArrayList<Duck>();
-  points=new ArrayList<Score>();
-  planes=new ArrayList<Plane>();
+  ducks.clear();
+  points.clear();
+  planes.clear();
   bullets=new ArrayList<Bullet>();
 
   for (int i=0; i<abilities.length; i++) {

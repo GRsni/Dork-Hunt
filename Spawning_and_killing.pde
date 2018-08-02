@@ -84,3 +84,12 @@ void killPlane(Plane p) {
     UFOCrash.play(0);
   }
 }
+
+
+void spawnBoss() {
+  PVector aux1=new PVector(random(240, 250), random(180, 300));
+  PVector aux2=new PVector(width-random(240, 260), random(180, 300));
+  PVector aux3=new PVector(random(width/2-95, width/2-55), random(50, 70));
+  boss=new Boss(aux1, aux2, aux3);
+  bossSpawned=true;
+}

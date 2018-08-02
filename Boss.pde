@@ -241,11 +241,14 @@ class Boss {
         vel[selector].add(acc[selector]);
         vel[selector].mult(.9);
         pos[selector].add(vel[selector]);
-        if (pos[selector].x>width/2-200+selector*(width/2+200-150)) {
-          pos[selector].x=width/2-200+selector*(width/2+200-150);
-        } else if (pos[selector].x<80+selector*(-80+width/2+50)) {
-          pos[selector].x=80+selector*(width/2+50-80);
-        }
+        pos[selector].x=constrain(pos[selector].x, 
+              80+selector*(width/2+50-80), 
+              200+selector*(width/2+200-150));
+        //if (pos[selector].x>width/2-200+selector*(width/2+200-150)) {
+        //  pos[selector].x=width/2-200+selector*(width/2+200-150);
+        //} else if (pos[selector].x<80+selector*(-80+width/2+50)) {
+        //  pos[selector].x=80+selector*(width/2+50-80);
+        //}
         if (pos[selector].y<30+selector*100) {
           pos[selector].y=30+selector*100;
         } else if (pos[selector].y>height-400) {
