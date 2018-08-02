@@ -208,7 +208,7 @@ void loadStuff() {
     startAmmo=50000;
   }
   shotIndex=startAmmo;
-  levelChoose();
+  chooseNextLevel();
   threadDone=true;
 }
 
